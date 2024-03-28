@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Added this line
-app.use(cors());
+app.use(cors({ origin: 'https://car-backend-tt86.onrender.com' })); // Allow requests only from this origin
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

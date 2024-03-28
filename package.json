@@ -15,5 +15,6 @@
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.3",
     "multer": "^1.4.5-lts.1"
-  }
+  },
+  "proxy": "https://car-backend-tt86.onrender.com"
 }

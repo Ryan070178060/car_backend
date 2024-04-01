@@ -41,12 +41,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, 'upload/images')));
 
 // Middleware to serve images with CORS headers
 app.use('/images', (req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Adjust this to your frontend domain if needed
+  res.setHeader('Access-Control-Allow-Origin', '*','https://car-backend-tt86.onrender.com','https://car-ecommerce-w755.onrender.com'); // Adjust this to your frontend domain if needed
   next();
 }, express.static(path.join(__dirname, 'upload/images')));
 

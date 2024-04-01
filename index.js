@@ -2,35 +2,23 @@ const express = require("express");
 const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
-const cors = require("cors");
 const jwt = require('jsonwebtoken');
-const router = express.Router();
-const bodyParser = require('body-parser');
 
 const app = express();
 const port = 4000;
 
 app.use(express.json());
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Added this line
-app.use(cors({ origin: 'https://car-backend-tt86.onrender.com' })); // Allow requests only from this origin
-// Body parser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(express.urlencoded({ extended: true }));
 
 
 // Database connection with MongoDB
-
-mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net/", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
-
 
 // Image Storage Engine
 const storage = multer.diskStorage({
@@ -44,7 +32,6 @@ const upload = multer({ storage });
 
 // Creating Upload Endpoint for images
 app.use('/images', express.static(path.join(__dirname, 'upload/images')));
-
 
 // Schema for creating products
 const productSchema = new mongoose.Schema({
@@ -146,10 +133,7 @@ app.get('/allproducts', async (req,res)=>{
     let products = await Product.find({});
     console.log('All Products Fetched');
     res.send(products);
-
-})
-
-
+});
 
 //Creating endpoint for new collection  data
 app.get('/newcollection', async (req,res)=>{
@@ -157,18 +141,7 @@ app.get('/newcollection', async (req,res)=>{
   let newcollection = products.slice(1).slice(-8);
   console.log("NewCollections Fetched");
   res.send(newcollection);
-})
-//Creating endpoint for popular in women section
-{/*app.get('/popularinwomen',async (req,res)=>{
-  let products =await Product.find({category:"women"});
-  let popular_in_women =products.slice(0,4);
-  console.log("Popular in women fetched");
-  res.send(popular_in_women);
-})*/}
-
-//creating middleware to fetch user
-
-
+});
 
 // Start the server
 app.listen(port, () => {

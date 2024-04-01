@@ -6,6 +6,15 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = 4000;
+const cors = require("cors");
+const corsOptions = {
+  origin: ['https://car-ecommerce-w755.onrender.com','https://car-backend-tt86.onrender.com', 'http://localhost:3000','http://localhost:4000'], // Add your frontend URLs here
+  credentials: true, // access-control-allow-credentials:true
+  optionSuccessStatus: 200,
+}
+
+
+app.use(cors(corsOptions)); // Apply CORS middleware
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -75,6 +84,7 @@ const Product = mongoose.model("Product", productSchema);
 app.get("/", (req, res) => {
   res.send("Express App is Running");
 });
+
 
 // Upload Endpoint for images
 app.post("/upload", upload.single('product'), (req, res) => {

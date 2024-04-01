@@ -8,7 +8,7 @@ const app = express();
 const port = 4000;
 const cors = require("cors");
 const corsOptions = {
-  origin: ['https://car-ecommerce-w755.onrender.com','https://car-backend-tt86.onrender.com', 'http://localhost:3000','http://localhost:4000'], // Add your frontend URLs here
+  origin: ['https://car-ecommerce-w755.onrender.com','https://car-backend-tt86.onrender.com', 'http://localhost:3000','http://localhost:4000','  http://localhost:5173'], // Add your frontend URLs here
   credentials: true, // access-control-allow-credentials:true
   optionSuccessStatus: 200,
 }

@@ -14,7 +14,6 @@ const corsOptions = {
   credentials: true,
   preflightContinue: false,
   optionsSuccessStatus: 204,
-  allowedHeaders: 'Content-Type,Authorization', // Add allowed headers
 }
 
 app.use(cors(corsOptions)); // Apply CORS middleware

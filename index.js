@@ -8,7 +8,6 @@ const app = express();
 const port = 4000;
 const cors = require("cors");
 const corsOptions = {
-  'allowedHeaders': ['sessionId', 'Content-Type'],
   origin: ['https://car-ecommerce-w755.onrender.com','https://car-backend-tt86.onrender.com','*', 'https://car-admin-8sf2.onrender.com','http://localhost:3000','http://localhost:4000','  http://localhost:5173'], // Add your frontend URLs here
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   

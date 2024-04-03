@@ -38,12 +38,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage:storage });
 
 // Creating Upload Endpoint for images
-app.use('/api/images', express.static(path.join(__dirname, 'api/upload/images')))
+app.use('/images', express.static(path.join(__dirname, '/upload/images')))
 
-app.post("/api/upload", upload.single('product'), (req, res) => {
+app.post("/upload", upload.single('product'), (req, res) => {
   res.json({
     success: 1,
-    image_url: `https://car-backend-tt86.onrender.com/api/images/${req.file.filename}`
+    image_url: `https://car-backend-tt86.onrender.com/images/${req.file.filename}`
   });
 });
 
@@ -91,7 +91,7 @@ const Product = mongoose.model("Product", productSchema);
 
 
 // Create API for adding products
-app.post('/api/addproduct', async (req, res) => {
+app.post('/addproduct', async (req, res) => {
   try {
     const products = await Product.find({});
     const id = products.length > 0 ? products[products.length - 1].id + 1 : 1;
@@ -119,7 +119,7 @@ app.post('/api/addproduct', async (req, res) => {
 });
 
 // Create API for deleting products
-app.post('/api/removeproduct', async (req, res) => {
+app.post('/removeproduct', async (req, res) => {
   try {
     await Product.findOneAndDelete({ id: req.body.id });
     console.log("Product Removed");
@@ -135,14 +135,14 @@ app.post('/api/removeproduct', async (req, res) => {
 });
 
 //Creating API for getting all products
-app.get('/api/allproducts', async (req,res)=>{
+app.get('/allproducts', async (req,res)=>{
     let products = await Product.find({});
     console.log('All Products Fetched');
     res.send(products);
 });
 
 //Creating endpoint for new collection  data
-app.get('/api/newcollection', async (req,res)=>{
+app.get('/newcollection', async (req,res)=>{
   let products= await Product.find({});
   let newcollection = products.slice(1).slice(-8);
   console.log("NewCollections Fetched");

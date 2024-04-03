@@ -3,24 +3,14 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
 const jwt = require('jsonwebtoken');
+const cors= require("cors");
 
 const app = express();
 const port = 4000;
-const cors = require("cors");
-const corsOptions = {
-  origin: ['https://car-ecommerce-w755.onrender.com','https://car-backend-tt86.onrender.com','*', 'https://car-admin-8sf2.onrender.com','http://localhost:3000','http://localhost:4000','  http://localhost:5173'], // Add your frontend URLs here
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-}
-
-app.use(cors(corsOptions)); // Apply CORS middleware
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 
 // Database connection with MongoDB
@@ -32,19 +22,30 @@ mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", {
     console.error("Error connecting to MongoDB:", error);
   });
 
+// API Creation
+app.get("/", (req, res) => {
+  res.send("Express App is Running");
+});
+
 // Image Storage Engine
 const storage = multer.diskStorage({
   destination: './upload/images',
   filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
+  return   cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage:storage });
 
 // Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, 'upload/images')));
+app.use('/api/images', express.static(path.join(__dirname, 'api/upload/images')))
 
+app.post("/api/upload", upload.single('product'), (req, res) => {
+  res.json({
+    success: 1,
+    image_url: `https://car-backend-tt86.onrender.com/api/images/${req.file.filename}`
+  });
+});
 
 // Schema for creating products
 const productSchema = new mongoose.Schema({
@@ -84,22 +85,13 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model("Product", productSchema);
 
-// API Creation
-app.get("/", (req, res) => {
-  res.send("Express App is Running");
-});
 
 
-// Upload Endpoint for images
-app.post("/upload", upload.single('product'), (req, res) => {
-  res.json({
-    success: 1,
-    image_url: `https://car-backend-tt86.onrender.com/images/${req.file.filename}`
-  });
-});
+
+
 
 // Create API for adding products
-app.post('/addproduct', async (req, res) => {
+app.post('/api/addproduct', async (req, res) => {
   try {
     const products = await Product.find({});
     const id = products.length > 0 ? products[products.length - 1].id + 1 : 1;
@@ -127,7 +119,7 @@ app.post('/addproduct', async (req, res) => {
 });
 
 // Create API for deleting products
-app.post('/removeproduct', async (req, res) => {
+app.post('/api/removeproduct', async (req, res) => {
   try {
     await Product.findOneAndDelete({ id: req.body.id });
     console.log("Product Removed");
@@ -143,14 +135,14 @@ app.post('/removeproduct', async (req, res) => {
 });
 
 //Creating API for getting all products
-app.get('/allproducts', async (req,res)=>{
+app.get('/api/allproducts', async (req,res)=>{
     let products = await Product.find({});
     console.log('All Products Fetched');
     res.send(products);
 });
 
 //Creating endpoint for new collection  data
-app.get('/newcollection', async (req,res)=>{
+app.get('/api/newcollection', async (req,res)=>{
   let products= await Product.find({});
   let newcollection = products.slice(1).slice(-8);
   console.log("NewCollections Fetched");

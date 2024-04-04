@@ -22,7 +22,7 @@ mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", {
     console.error("Error connecting to MongoDB:", error);
   });
 // Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, 'car-ecommerce')));
+app.use(express.static('build'));
 
 
 

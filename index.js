@@ -23,9 +23,9 @@ mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", {
   });
 
 // API Creation
-app.get("/", (req, res) => {
-  res.send("Express App is Running");
-});
+// Serve static files from the 'frontend' directory
+app.use(express.static(path.join(__dirname, 'car-ecommerce')));
+
 
 // Image Storage Engine
 const storage = multer.diskStorage({

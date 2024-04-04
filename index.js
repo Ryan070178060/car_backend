@@ -22,9 +22,16 @@ mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", {
     console.error("Error connecting to MongoDB:", error);
   });
 
-// API Creation
-// Serve static files from the 'frontend' directory
-app.use(express.static(path.join(__dirname, 'car-ecommerce')));
+// Serve static files from the 'car-ecommerce' directory
+const frontendDirectory = path.join(__dirname, 'car-ecommerce');
+console.log("Frontend directory:", frontendDirectory); // Debugging
+app.use(express.static(frontendDirectory));
+
+// Debugging middleware to log incoming requests
+app.use((req, res, next) => {
+  console.log("Incoming request:", req.url);
+  next();
+});
 
 
 // Image Storage Engine

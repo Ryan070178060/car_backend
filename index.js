@@ -134,14 +134,14 @@ app.post('/removeproduct', async (req, res) => {
 });
 
 //Creating API for getting all products
-app.get('/api/allproducts', async (req,res)=>{
+app.get('/allproducts', async (req,res)=>{
     let products = await Product.find({});
     console.log('All Products Fetched');
     res.send(products);
 });
 
 //Creating endpoint for new collection  data
-app.get('/api/newcollection', async (req,res)=>{
+app.get('/newcollection', async (req,res)=>{
   let products= await Product.find({});
   let newcollection = products.slice(1).slice(-8);
   console.log("NewCollections Fetched");

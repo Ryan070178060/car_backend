@@ -22,7 +22,7 @@ mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", {
     console.error("Error connecting to MongoDB:", error);
   });
 // Serve static files from the 'frontend' directory
-app.use(express.static('build'));
+app.use(express.static('car-ecommerce/build'));
 
 
 
@@ -147,6 +147,10 @@ app.get('/api/newcollection', async (req,res)=>{
   console.log("NewCollections Fetched");
   res.send(newcollection);
 });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 
 // Start the server
 app.listen(port, () => {

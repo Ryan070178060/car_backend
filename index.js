@@ -90,7 +90,7 @@ const Product = mongoose.model("Product", productSchema);
 
 
 // Create API for adding products
-app.post('/api/addproduct', async (req, res) => {
+app.post('/addproduct', async (req, res) => {
   try {
     const products = await Product.find({});
     const id = products.length > 0 ? products[products.length - 1].id + 1 : 1;
@@ -118,7 +118,7 @@ app.post('/api/addproduct', async (req, res) => {
 });
 
 // Create API for deleting products
-app.post('/api/removeproduct', async (req, res) => {
+app.post('/removeproduct', async (req, res) => {
   try {
     await Product.findOneAndDelete({ id: req.body.id });
     console.log("Product Removed");

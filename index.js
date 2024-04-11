@@ -11,6 +11,11 @@ const port = 4000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(cors({
+  origin: 'https://car-admin-8sf2.onrender.com',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
 
 
 // Database connection with MongoDB
@@ -28,7 +33,7 @@ app.use(express.static('car-ecommerce/build'));
 
 // Image Storage Engine
 const storage = multer.diskStorage({
-  destination: './car-ecommerce/upload/images',
+  destination: './upload/images',
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
@@ -38,7 +43,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, 'car-ecommerce/upload/images')));
+app.use('/images', express.static(path.join(__dirname, '/upload/images')));
 
 
 

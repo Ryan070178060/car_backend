@@ -26,7 +26,7 @@ app.use(express.static('car-ecommerce/build'));
 
 // Image Storage Engine
 const storage = multer.diskStorage({
-  destination: './upload/images',
+  destination: '.car_backend/build/upload/images',
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
@@ -37,7 +37,7 @@ const upload = multer({ storage });
 
 
 // Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, '/upload/images')));
+app.use('/images', express.static(path.join(__dirname, 'car_backend/bulidupload/images')));
 
 app.post("/upload", upload.single('product'), (req, res) => {
   res.json({

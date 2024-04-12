@@ -37,7 +37,7 @@ const upload = multer({ storage });
 
 
 // Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, 'car_backend/bulidupload/images')));
+app.use('/images', express.static(path.join(__dirname, 'car_backend/build/upload/images')));
 
 app.post("/upload", upload.single('product'), (req, res) => {
   res.json({

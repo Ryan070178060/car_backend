@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 const jwt = require('jsonwebtoken');
 const cors= require("cors");
+const fs = require('fs');
 
 const app = express();
 const port = 4000;
@@ -17,7 +18,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
 
-
 // Database connection with MongoDB
 mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -26,26 +26,29 @@ mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", {
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
 // Serve static files from the 'frontend' directory
 app.use(express.static('car-ecommerce/build'));
 
-
-
 // Image Storage Engine
 const storage = multer.diskStorage({
-  destination: './upload/images',
+  destination: (req, file, cb) => {
+    const uploadDir = './car-ecommerce/build/upload/images';
+    // Check if the directory exists, if not, create it
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
 });
 
-
 const upload = multer({ storage });
 
 // Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, '/upload/images')));
-
-
+app.use('/images', express.static(path.join(__dirname, 'car-ecommerce/build/upload/images')));
 
 app.post("/upload", upload.single('product'), (req, res) => {
   res.json({
@@ -91,11 +94,6 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", productSchema);
-
-
-
-
-
 
 // Create API for adding products
 app.post('/addproduct', async (req, res) => {
@@ -158,7 +156,6 @@ app.get('/newcollection', async (req,res)=>{
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
 
 // Start the server
 app.listen(port, () => {

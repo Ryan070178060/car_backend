@@ -3,20 +3,14 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
 const jwt = require('jsonwebtoken');
-const cors= require("cors");
 const fs = require('fs');
-
+const cors= require("cors");
 const app = express();
 const port = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-app.use(cors({
-  origin: 'https://car-admin-8sf2.onrender.com',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-}));
 
 // Database connection with MongoDB
 mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", { useNewUrlParser: true, useUnifiedTopology: true })

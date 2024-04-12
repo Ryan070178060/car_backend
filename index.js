@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Database connection with MongoDB
-mongoose.connect("mongodb+srv://Ryan:shamala254@cluster0.brlg6co.mongodb.net", { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://ryan:rayo254@cluster0.65ow69c.mongodb.net/cars", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to MongoDB");
   })
@@ -39,7 +39,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage :storage});
 
 // Creating Upload Endpoint for images
 app.use('/images', express.static(path.join(__dirname, '/upload/images')));

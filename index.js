@@ -26,7 +26,7 @@ app.use(express.static('car-ecommerce/build'));
 
 // Image Storage Engine
 const storage = multer.diskStorage({
-  destination: '.build/upload/images',
+  destination: 'build/upload/images',
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }

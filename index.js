@@ -26,20 +26,15 @@ app.use(express.static('car-ecommerce/build'));
 
 // Image Storage Engine
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = './upload/images';
-    // Check if the directory exists, if not, create it
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
+  destination: './upload/images',
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
 });
 
-const upload = multer({ storage :storage});
+const upload = multer({ storage });
+
+
 
 // Creating Upload Endpoint for images
 app.use('/images', express.static(path.join(__dirname, '/upload/images')));

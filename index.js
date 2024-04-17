@@ -26,7 +26,7 @@ app.use(express.static('car-ecommerce/build'));
 
 // Image Storage Engine
 const storage = multer.diskStorage({
-  destination: '/car_backend/build/upload/images',
+  destination: './upload/images',
   filename: (req, file, cb) => {
     cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`);
   }
@@ -35,14 +35,18 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
+// API Creation
+app.get("/", (req, res) => {
+  res.send("Express App is Running");
+});
 
 // Creating Upload Endpoint for images
-app.use('/images', express.static(path.join(__dirname, '/car_backend/build/upload/images')));
+app.use('/images', express.static(path.join(__dirname, '/upload/images')));
 
 app.post("/upload", upload.single('product'), (req, res) => {
   res.json({
     success: 1,
-    image_url: `https://autodealer.onrender.com/images/${req.file.filename}`
+    image_url: `http://localhost:4000/images/${req.file.filename}`
   });
 });
 
@@ -141,9 +145,6 @@ app.get('/newcollection', async (req,res)=>{
   let newcollection = products.slice(1).slice(-8);
   console.log("NewCollections Fetched");
   res.send(newcollection);
-});
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Start the server

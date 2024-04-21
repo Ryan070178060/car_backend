@@ -131,6 +131,18 @@ app.post('/removeproduct', async (req, res) => {
     res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 });
+//Creating API for searching products
+app.get('/search', async (req, res) => {
+  try {
+    const { query } = req.query;
+    let products = await Product.find({ name: { $regex: new RegExp(query, 'i') } });
+    console.log('Products Searched:', products);
+    res.send(products);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+});
 
 //Creating API for getting all products
 app.get('/allproducts', async (req,res)=>{

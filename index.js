@@ -5,6 +5,7 @@ const path = require("path");
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const cors= require("cors");
+require('dotenv').config();
 const app = express();
 const port = 4000;
 
@@ -13,13 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Database connection with MongoDB
-mongoose.connect("mongodb+srv://ryan:rayo254@cluster0.65ow69c.mongodb.net/cars", { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
-  });
+const conn = mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
 
 // Serve static files from the 'frontend' directory
 app.use(express.static('car-ecommerce/build'));
